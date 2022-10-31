@@ -2,7 +2,10 @@ import socket
 
 serv_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM, proto=0)
 serv_sock.bind(('', 53210))
-serv_sock.listen(10)
+serv_sock.listen(1)
+
+client_sock, client_addr = serv_sock.accept()
+
 
 while True:
     # Бесконечно обрабатываем входящие подключения
@@ -17,6 +20,7 @@ while True:
         if not data:
             # Клиент отключился
             break
+        client_sock.send(data.upper())
         client_sock.sendall(data)
 
     client_sock.close()
